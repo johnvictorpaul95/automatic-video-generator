@@ -53,6 +53,7 @@ import { TeluguUnseenStory } from './TeluguUnseenStory';
 import { TeluguVijaySwathiStory } from './TeluguVijaySwathiStory';
 import { TenMinUnseenMasterpiece } from './TenMinUnseenMasterpiece';
 import { ShowreelTeaser } from './ShowreelTeaser';
+import { FinancialDocumentary, calculateFinancialDocMetadata, defaultFinancialDocProps } from './finance-doc';
 export const RemotionRoot: React.FC = () => {
     const nvidiaManifest: HeraManifest = {
         bgVideo: "videos/ocean_bg.mp4", // Using existing video as base
@@ -534,6 +535,16 @@ export const RemotionRoot: React.FC = () => {
                 fps={30}
                 width={1920}
                 height={1080}
+            />
+            <Composition
+                id="FinancialDocumentary"
+                component={FinancialDocumentary}
+                durationInFrames={30 * 45}
+                fps={30}
+                width={1080}
+                height={1920}
+                defaultProps={defaultFinancialDocProps}
+                calculateMetadata={calculateFinancialDocMetadata}
             />
         </>
     );
