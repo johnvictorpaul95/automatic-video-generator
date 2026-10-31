@@ -1,0 +1,41 @@
+name: Generate Financial Doc Video
+
+on:
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: 'موضوع الفيديو'
+        required: true
+
+jobs:
+  generate-and-render:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Generate Script & Audio with AI
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          VIDEO_TOPIC: ${{ github.event.inputs.topic }}
+        run: |
+          node setup-finance-doc.js
+
+      - name: Render Video with Remotion
+        run: |
+          npx remotion render FinancialDocumentary out/video.mp4 --props=out/props.json
+
+      - name: Upload Video Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: financial-documentary-video
+          path: out/video.mp4
